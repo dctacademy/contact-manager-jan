@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
-
-const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://aniruddha:secret123@cluster0-shard-00-00-kvmls.mongodb.net:27017,cluster0-shard-00-01-kvmls.mongodb.net:27017,cluster0-shard-00-02-kvmls.mongodb.net:27017/contact-manager-2?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true' 
+// console.log(process.env.MONGOLAB_URI)
+const CONNECTION_URI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/contact-manager-jan'
 
 // DB Confirguration 
 mongoose.Promise = global.Promise

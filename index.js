@@ -9,6 +9,7 @@ app.use(express.json())
 app.get('/', function(req, res){
     res.send('<h2>Welcome to contact manager</h2>')
 })
+
 app.use('/contacts', contactsRouter)
 
 app.listen(port, function(){
