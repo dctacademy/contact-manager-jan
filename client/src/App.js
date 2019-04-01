@@ -9,6 +9,9 @@ import ContactEdit from './components/contacts/Edit'
 
 import UserRegister from './components/authentication/Register'
 import UserLogin from './components/authentication/Login'
+import axios from './config/axios'
+
+console.log(axios.defaults)
 
 class App extends Component {
   constructor(props){
@@ -47,7 +50,6 @@ class App extends Component {
             )
           }
         
-
           <Switch> 
             <Route path="/" component={Home} exact={true} />
             <Route path="/contacts" component={ContactList} exact={true} />
@@ -57,6 +59,15 @@ class App extends Component {
 
             <Route path="/users/register" component={UserRegister} />
             <Route path="/users/login" render={() => <UserLogin  handleIsAuthenticated={this.handleIsAuthenticated}/> } /> 
+            <Route path="/users/logout" component={() => {
+                localStorage.clear() 
+                axios.defaults.headers['x-auth'] = null 
+                return (
+                  <div>
+                    <p> You have successfully logged out</p>
+                  </div>
+                )
+                }} />
           </Switch>
         </div>
       </BrowserRouter>

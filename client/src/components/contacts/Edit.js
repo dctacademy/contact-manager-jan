@@ -1,5 +1,5 @@
 import React from 'react' 
-import axios from 'axios'
+import axios from '../../config/axios'
 import ContactForm from './Form'
 
 class ContactEdit extends React.Component {
@@ -15,7 +15,7 @@ class ContactEdit extends React.Component {
     componentDidMount() {
         console.log('component did mount - edit')
         const { id } = this.props.match.params
-        axios.get(`http://localhost:3005/contacts/${id}`)
+        axios.get(`/contacts/${id}`)
             .then(response => {
                 this.setState(() => ({ contact: response.data }))
             })
@@ -23,7 +23,7 @@ class ContactEdit extends React.Component {
 
     handleSubmit(formData) {
         // console.log('contact new component')
-        axios.put(`http://localhost:3005/contacts/${this.state.contact._id}`, formData)
+        axios.put(`/contacts/${this.state.contact._id}`, formData)
             .then(() => this.props.history.push(`/contacts/${this.state.contact._id}`))
             .catch(err => console.log(err))
     }

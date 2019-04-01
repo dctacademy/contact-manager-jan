@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router() 
+const { authenticateUser } = require("../middlewares/authentication")
 const { Contact } = require('../models/Contact')
 
 // localhost:3000/contacts
-router.get('/', function (req, res) {
+router.get('/', authenticateUser, function (req, res) {
     // will return all the documents in the collection
-    Contact.find()
+    Contact.find({ user: req.user._id})
         .then(function (contacts) {
             res.send(contacts)
         })
@@ -14,10 +15,10 @@ router.get('/', function (req, res) {
         })
 })
 
-router.post('/', function (req, res) {
+router.post('/', authenticateUser, function (req, res) {
     const body = req.body
     const contact = new Contact(body)
-
+    contact.user = req.user._id 
     contact.save()
         .then(function (contact) {
             res.send(contact)
@@ -27,11 +28,15 @@ router.post('/', function (req, res) {
         })
 })
 
-router.get('/:id', function (req, res) {
+router.get('/:id',authenticateUser, function (req, res) {
     const id = req.params.id
     // find operation 
-    Contact.findById(id)
-        .then(function (contact) {
+    Contact.findOne({
+        user: req.user._id, 
+        _id: id
+    })
+    .then(function (contact) {
+            console.log(contact.user, req.user._id)
             if (contact) { // if contact is found in DB
                 res.send(contact)
             } else { // else contact not found in DB, send empty {}
@@ -43,9 +48,12 @@ router.get('/:id', function (req, res) {
         })
 })
 
-router.delete('/:id', function (req, res) {
+router.delete('/:id', authenticateUser, function (req, res) {
     const id = req.params.id
-    Contact.findByIdAndDelete(id)
+    Contact.findOneAndDelete({
+        user: req.user._id, 
+        _id: id 
+    })
         .then(function (contact) {
             res.send(contact)
         })
@@ -54,12 +62,15 @@ router.delete('/:id', function (req, res) {
         })
 })
 
-router.put('/:id', function (req, res) {
+router.put('/:id', authenticateUser, function (req, res) {
     const id = req.params.id
     const body = req.body
     // findByIdAndUpdate - by default will not run validations
     // new - return the newly updated record, runValidators - to run validations while updating 
-    Contact.findByIdAndUpdate(id, { $set: body }, { new: true, runValidators: true })
+    Contact.findOneAndUpdate({
+        user: req.user._id, 
+        _id: id
+    }, { $set: body }, { new: true, runValidators: true })
         .then(function (contact) {
             res.send(contact)
         })

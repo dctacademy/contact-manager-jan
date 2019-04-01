@@ -1,6 +1,6 @@
 import React from 'react' 
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import axios from '../../config/axios'
 
 class ContactShow extends React.Component {
    constructor(props) {
@@ -15,7 +15,7 @@ class ContactShow extends React.Component {
         const confirmDelete = window.confirm("Are you sure?")
         if(confirmDelete) {
             // api call to delete
-            axios.delete(`http://localhost:3005/contacts/${this.state.contact._id}`)
+            axios.delete(`/contacts/${this.state.contact._id}`)
                 .then(() => this.props.history.push('/contacts'))
                 .catch(err => window.alert(err))
         }
@@ -23,7 +23,7 @@ class ContactShow extends React.Component {
 
    componentDidMount() {
         const id = this.props.match.params.id 
-        axios.get(`http://localhost:3005/contacts/${id}`)
+        axios.get(`/contacts/${id}`)
             .then(response => this.setState(() => ({ contact: response.data })))
    }
    

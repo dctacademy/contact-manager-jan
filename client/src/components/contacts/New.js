@@ -1,5 +1,5 @@
 import React from 'react' 
-import axios from 'axios'
+import axios from '../../config/axios'
 import ContactForm from './Form'
 
 class ContactNew extends React.Component {
@@ -10,7 +10,7 @@ class ContactNew extends React.Component {
 
     handleSubmit(formData) {
         // console.log('contact new component')
-        axios.post('http://localhost:3005/contacts', formData)
+        axios.post('/contacts', formData)
             .then(() => this.props.history.push('/contacts'))
             .catch(err => console.log(err))
     }

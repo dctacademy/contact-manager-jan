@@ -1,6 +1,6 @@
 import React from 'react' 
 import { Link } from 'react-router-dom'
-import axios from 'axios'
+import axios from '../../config/axios'
 
 class ContactList extends React.Component {
     constructor(props){
@@ -11,7 +11,7 @@ class ContactList extends React.Component {
     }
 
     componentDidMount() {
-        axios.get('http://localhost:3005/contacts')
+        axios.get('/contacts')
             .then(response => this.setState(() => ({ contacts: response.data })))
     }
     render() {

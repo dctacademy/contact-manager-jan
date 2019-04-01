@@ -14,6 +14,10 @@ const contactSchema = new Schema({
         required: true,
         minlength: 10,
         maxlength: 10
+    },
+    user: {
+        type: Schema.Types.ObjectId, 
+        ref: 'User'
     }
 })
 
